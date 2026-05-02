@@ -5,22 +5,27 @@
     box-sizing: border-box;
 }
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
     --header-color-:#2229;
     --text-color:#fff;
-    --nav-color:#48e;
+    --nav-color:#48e;/*rojito F72808, soydalto 48e, morado 4B004F, verde 271  */
     --bg-color:#222;
+    --shadow: #48e; /*soy dalto 48e, morado, 9D0687, rojito F72808 ,verde 34B71A*/
     background-color: var(--bg-color);
 }
 /*MAIN Section*/
 .main{
     display: flex;
     align-items: flex-start;
+    flex: 1;
 }
 
 /*Nav seciton*/
 .nav{
     background-color:var(--nav-color);
-    filter: drop-shadow(0 0 4px var(--nav-color));
+    filter: drop-shadow(0 0 6px var(--shadow));
     display: flex;
     flex-flow: wrap;
     justify-content: space-between;
@@ -37,17 +42,17 @@ body {
     text-decoration: none;
     list-style: none;
     padding: 10px 70px;
-    background-color: #48e;
+    background-color: var(--nav-color);
     color: var(--text-color);
     border: 0;
     font-size: 1.5rem;
 }
 .item--Exit{
-    background-color: #45e;
+    background-color: #0A316B; /* azul 0A316B , rojo 450B02, morado 470047 ,verde 123E09 */
     border-radius: 20px;
 }
 .item:hover{
-    background-color:#6bf;
+    background-color:#6bf;/*azul 6bf, rojo FA7561, morado CA07AD,verde 62E548 */
     border-radius: 20px;
 }
 .item:active{
@@ -65,6 +70,7 @@ body {
     align-items:center;
     border: 5px solid #444;
     border-radius: 10px;
+    box-shadow: 0 0 8px #888;
 }
 
 .control__container {
@@ -109,6 +115,7 @@ body {
 
 /*Display Section*/
 .points{
+    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -117,4 +124,17 @@ body {
     border: 2px solid #666;
     border-radius: 10px; 
     color: var(--text-color);
+    text-align: center;
+}
+
+/*Footer*/
+footer{
+    top: 100vh;
+    width: 100%;
+    filter: drop-shadow(0 0 4px var(--shadow));
+    padding: 10px;
+    font-size: 1.5rem;
+    text-align: center;
+    color: var(--text-color);
+    background-color:#1E1A4D ; /*azul 1E1A4D , rojo 82181A, morado 4B004F  ,verde 35530E  */
 }
