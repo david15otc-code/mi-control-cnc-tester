@@ -13,16 +13,18 @@ body {
     --nav-color:#48e;/*rojito F72808, soydalto 48e, morado 4B004F, verde 271  */
     --bg-color:#222;
     --shadow: #48e; /*soy dalto 48e, morado, 9D0687, rojito F72808 ,verde 34B71A*/
+    --border-color:#666; /*puede cambiar a 444*/
+    --border-shadow: #888;/*igual puede cambiar a 666*/
     background-color: var(--bg-color);
 }
-/*MAIN Section*/
+/*MAIN Section-----------------------------------*/
 .main{
     display: flex;
     align-items: flex-start;
     flex: 1;
 }
 
-/*Nav seciton*/
+/*Nav seciton----------------------------------------*/
 .nav{
     background-color:var(--nav-color);
     filter: drop-shadow(0 0 6px var(--shadow));
@@ -37,6 +39,7 @@ body {
 .ul__nav{
     display: flex;
 }
+
 .item{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-decoration: none;
@@ -47,6 +50,7 @@ body {
     border: 0;
     font-size: 1.5rem;
 }
+
 .item--Exit{
     background-color: #0A316B; /* azul 0A316B , rojo 450B02, morado 470047 ,verde 123E09 */
     border-radius: 20px;
@@ -59,7 +63,7 @@ body {
     transform: translateY(2px);
 }
 
-/*CONTROL SECTION*/
+/*CONTROL SECTION-------------------------------------------------*/
 .control {
     margin-top: 50px; 
     margin-left: 50px;
@@ -68,31 +72,31 @@ body {
     display: flex;
     flex-direction: column;
     align-items:center;
-    border: 5px solid #444;
+    border: 5px solid var(--border-color);
     border-radius: 10px;
-    box-shadow: 0 0 8px #888;
+    box-shadow: 0 0 6px var(--border-shadow);
 }
 
 .control__container {
     display: grid;
     grid-template-columns: repeat(3, 60px) 40px repeat(1, 60px); 
     grid-template-rows: repeat(3, 60px);
-    gap: 30px;
+    gap: 35px;
     margin-top: 15px;
     
 }
 
-/*estilito*/
+/*estilito-----------------------------*/
 .btn-control {
     width: 80px;
     height: 80px;
     background-color: #444;
     color: white;
-    border: 2px solid #666;
+    border: 2px solid var(--border-color);
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 4px 0 #666;
+    box-shadow: 0 4px 0 var(--border-shadow);
     font-size:large;
     
 }
@@ -101,7 +105,7 @@ body {
     transform: translateY(2px);
 }
 
-/* Posicionamiento de la coluna (Fila / Columna) */
+/* Posicionamiento de la columnita (Fila / Columnita) -------------------------------*/
 .Y-up    { grid-area: 1 / 2; } /* Fila 1, Col 2 */
 .X-left  { grid-area: 2 / 1; } /* Fila 2, Col 1 */
 .Y-down  { grid-area: 2 / 2; } /* Fila 2, Col 2 (Centro) */
@@ -113,28 +117,198 @@ body {
 
 .spacer { grid-area: 1 / 4; width: 20px; } /* Espacio entre cruceta y Z */
 
-/*Display Section*/
+/*Display Section-----------------------------------*/
+
 .points{
-    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 100px;
-    margin-left: 200px;
-    border: 2px solid #666;
+    margin-top: 50px;
+    margin-left: 150px;
+    border: 5px solid var(--border-color);
+    box-shadow: 0 0 4px  var(--border-shadow);
     border-radius: 10px; 
     color: var(--text-color);
     text-align: center;
+    padding: 5px 50px 30px;
 }
 
-/*Footer*/
+
+.points_container{
+    display: grid;
+    grid-template-columns: repeat(1, 200px);
+    grid-template-rows: repeat(2, 100px);
+    gap: 20px;
+    align-items: center;
+}
+
+.displayy{
+    padding: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.title{
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.space{
+    padding: 10px;
+}
+
+/*gripper_container*/
+
+.gripper_container{
+    display:flex;
+    flex-direction: column;
+    color: var(--text-color);
+    align-items: center;
+    font-weight: bold;
+}
+
+.title2{
+    font-size: 35px;
+    padding: 0 0 10px;
+}
+
+.grip{
+    font-size: 20px;
+}
+
+/*Footer   -------------------------------*/
 footer{
     top: 100vh;
     width: 100%;
-    filter: drop-shadow(0 0 4px var(--shadow));
+    filter: drop-shadow(0 0 4px #3D349D);
     padding: 10px;
     font-size: 1.5rem;
     text-align: center;
     color: var(--text-color);
     background-color:#1E1A4D ; /*azul 1E1A4D , rojo 82181A, morado 4B004F  ,verde 35530E  */
+}
+
+
+/*MEDIA QUERIES*/
+
+/* =========================
+   TABLETS (1024px)
+========================= */
+@media screen and (max-width: 1024px){
+
+    .item{
+        padding: 10px 35px;
+        font-size: 1.1rem;
+    }
+
+    .main{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .control{
+        margin-left: 0;
+    }
+
+    .points{
+        margin-left: 0;
+        margin-top: 40px;
+    }
+}
+
+/* =========================
+   TABLETS PEQUEÑAS COMO LA MIA XD (768px)
+========================= */
+@media screen and (max-width: 768px){
+
+    .ul__nav{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .item{
+        padding: 10px 20px;
+        font-size: 1rem;
+        margin: 5px;
+    }
+
+    .control{
+        width: 90%;
+        padding: 20px;
+    }
+
+    .control__container{
+        gap: 20px;
+        grid-template-columns: repeat(3, 60px) 20px repeat(1, 60px);
+    }
+
+    .btn-control{
+        width: 70px;
+        height: 70px;
+        font-size: 1rem;
+    }
+
+    .points{
+        width: 90%;
+        padding: 20px;
+    }
+
+    .title,
+    .title2{
+        font-size: 28px;
+    }
+
+    footer{
+        font-size: 1.1rem;
+    }
+}
+
+/* =========================
+   MOBLIE FISRT (480px)
+========================= */
+@media screen and (max-width: 932px) and (orientation: landscape){
+
+    .main{
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 10px;
+    }
+
+    .control{
+        margin: 20px 0;
+        width: auto;
+        padding: 15px 25px;
+    }
+
+    .points{
+        margin: 20px 0;
+        width: auto;
+        padding: 15px 25px;
+    }
+
+    .control__container{
+        gap: 18px;
+    }
+
+    .btn-control{
+        width: 60px;
+        height: 60px;
+        font-size: .9rem;
+    }
+
+    .title,
+    .title2{
+        font-size: 22px;
+    }
+
+    .item{
+        font-size: .9rem;
+        padding: 8px 15px;
+    }
+
+    footer{
+        font-size: .85rem;
+    }
 }
