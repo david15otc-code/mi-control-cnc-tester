@@ -124,7 +124,7 @@ body {
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
-    margin-left: 150px;
+    margin-left: 100px;
     border: 5px solid var(--border-color);
     box-shadow: 0 0 4px  var(--border-shadow);
     border-radius: 10px; 
@@ -312,3 +312,4 @@ footer{
         font-size: .85rem;
     }
 }
+
