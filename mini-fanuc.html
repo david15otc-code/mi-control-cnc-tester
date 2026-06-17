@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es"> 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Control ServoBrazo 3GDL</title> 
+        <link rel="icon" href="logo.jpg">
+        <link rel="stylesheet" href="mini-fanuc.css">  
+    </head>
+    <body>
+        <header class="menu">
+            <nav class="nav">
+                <div class="nav_items">
+                    <ul class="ul__nav">
+                        <button class="item" id="btn-manual">Manual</button>
+                        <button class="item" id="btn-program">Program</button>
+                        <button class="item" id="btn-run">Run program</button>
+                        <button class="item" id="stop">Stop</button>
+                        <button class="item" id="btn-save">Save</button>
+                        <button class="item item--Exit" id="btn-exit">Exit</button>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <section class="main">
+            <section class="control"> 
+                <h1>SERVO CONTROL (3 GDL)</h1>
+                <div class="control__container">
+                    
+                    <div class="servo-axis">
+                        <label>Eje 1: Base (<span id="val-base">90</span>°)</label>
+                        <div class="servo-controls">
+                            <button class="btn-fine" data-servo="base" data-dir="-1">-</button>
+                            <input type="range" id="slider-base" min="0" max="180" value="90" class="servo-slider">
+                            <button class="btn-fine" data-servo="base" data-dir="1">+</button>
+                        </div>
+                    </div>
+
+                    <div class="servo-axis">
+                        <label>Eje 2: Hombro (<span id="val-hombro">90</span>°)</label>
+                        <div class="servo-controls">
+                            <button class="btn-fine" data-servo="hombro" data-dir="-1">-</button>
+                            <input type="range" id="slider-hombro" min="0" max="180" value="90" class="servo-slider">
+                            <button class="btn-fine" data-servo="hombro" data-dir="1">+</button>
+                        </div>
+                    </div>
+
+                    <div class="servo-axis">
+                        <label>Eje 3: Codo (<span id="val-codo">90</span>°)</label>
+                        <div class="servo-controls">
+                            <button class="btn-fine" data-servo="codo" data-dir="-1">-</button>
+                            <input type="range" id="slider-codo" min="0" max="180" value="90" class="servo-slider">
+                            <button class="btn-fine" data-servo="codo" data-dir="1">+</button>
+                        </div>
+                    </div>
+
+                    <button class="btn-control" id="gripper">Gripper</button> 
+                </div>
+            </section>
+
+            <section class="main2">
+                <div class="points">
+                    <span class="title">POINTS</span>
+                    <div class="points__container">
+                        <div class="displayy"> <div id="display">VACÍO</div> </div>
+                    </div>
+                </div>
+                
+                <div class="space"></div>
+                
+                <section class="gripper_container">
+                    <span class="title2">Gripper</span>
+                    <div class="grippp">
+                        <div class="grip">
+                            <div id="Gripper">CLOSE</div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </section>
+         
+        <footer>
+            <strong>DAVID Copyright © =-= no robar porfis :)</strong>
+        </footer>
+
+        <script>
+        const ESP32 = "http://192.168.1.200";
+
+            let pointCounter = 0;
+            let isStopped = false; 
+            let isGripperOpen = false; 
+
+            const display = document.getElementById('display');
+            const btnGripper = document.getElementById('gripper');
+            const gripperStatus = document.getElementById('Gripper');
+
+            // Reducido a 3 Servos únicamente
+            const servos = {
+                base: { slider: document.getElementById('slider-base'), val: document.getElementById('val-base') },
+                hombro: { slider: document.getElementById('slider-hombro'), val: document.getElementById('val-hombro') },
+                codo: { slider: document.getElementById('slider-codo'), val: document.getElementById('val-codo') }
+            };
+
+            function enviarComando(ruta) {
+                console.log("Enviando a: " + ruta);
+                fetch(ESP32 + ruta)
+                    .then(response => console.log("Respuesta recibida"))
+                    .catch(error => console.error("Error en la conexión", error));
+            }
+
+            function actualizarDisplay() {
+                if (pointCounter === 0) {
+                    display.textContent = "VACÍO";
+                } else {
+                    display.textContent = "POINT " + pointCounter;
+                }
+            }
+
+            function actualizarServo(id) {
+                if (isStopped) return;
+                const grados = servos[id].slider.value;
+                servos[id].val.textContent = grados;
+                enviarComando(`/servo?${id}=${grados}`);
+            }
+
+            // Listeners para los 3 Sliders
+            Object.keys(servos).forEach(id => {
+                servos[id].slider.addEventListener('input', () => actualizarServo(id));
+            });
+
+            // Listeners para el ajuste fino de los 3 Servos
+            document.querySelectorAll('.btn-fine').forEach(boton => {
+                boton.addEventListener('click', () => {
+                    if (isStopped) return;
+                    const idServo = boton.getAttribute('data-servo');
+                    const direccion = parseInt(boton.getAttribute('data-dir'));
+                    let nuevoValor = parseInt(servos[idServo].slider.value) + (direccion * 5); 
+                    
+                    if (nuevoValor > 180) nuevoValor = 180;
+                    if (nuevoValor < 0) nuevoValor = 0;
+
+                    servos[idServo].slider.value = nuevoValor;
+                    actualizarServo(idServo);
+                });
+            });
+
+            // --- Menú superior ---
+            document.getElementById('btn-manual').addEventListener('click', () => enviarComando('/manual'));
+            
+            document.getElementById('btn-program').addEventListener('click', () => {
+                if (isStopped) return;
+                enviarComando('/program');
+                pointCounter++;
+                actualizarDisplay();
+            });
+
+            document.getElementById('btn-save').addEventListener('click', () => {
+                if (isStopped) return;
+                enviarComando('/save');
+                display.textContent = "GUARDADO";
+            });
+
+            document.getElementById('btn-run').addEventListener('click', () => {
+                if (isStopped) return;
+                enviarComando('/run');
+                display.textContent = "RUNNING";
+            });
+
+            btnGripper.addEventListener('click', () => {
+                if (isStopped) return; 
+                isGripperOpen = !isGripperOpen; 
+                if (isGripperOpen) {
+                    enviarComando('/Gopen');
+                    gripperStatus.textContent = "OPEN";
+                } else {
+                    enviarComando('/Gclose');
+                    gripperStatus.textContent = "CLOSE";
+                }
+            });
+
+            document.getElementById('stop').addEventListener('click', () => {
+                isStopped = !isStopped;
+                if (isStopped) {
+                    enviarComando('/stop');
+                    display.textContent = "STOP";
+                } else {
+                    actualizarDisplay();
+                }
+            });
+
+            document.getElementById('btn-exit').addEventListener('click', () => {
+                enviarComando('/exit');
+                pointCounter = 0;
+                isStopped = false; 
+                isGripperOpen = false;
+                gripperStatus.textContent = "CLOSE";
+                
+                Object.keys(servos).forEach(id => {
+                    servos[id].slider.value = 90;
+                    servos[id].val.textContent = 90;
+                });
+
+                actualizarDisplay();
+            });
+
+            actualizarDisplay();
+        </script>
+    </body>
+</html>
