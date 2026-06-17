@@ -1,0 +1,402 @@
+/* Paleta de Colores Inspirada en Palenight Theme para VS Code */
+:root {
+    --bg-color: #292d3e;
+    --header-bg-color: #212433;
+    --text-color: #a6accd;
+    --nav-color: #292d3e;
+    --shadow: #414863;
+    --accent-color: #c792ea; /* Púrpura */
+    --accent-active-color: #82aaff; /* Azul claro */
+    --success-color: #c3e88d; /* Verde lima */
+    --exit-color: #f07178; /* Rojo suave */
+    --border-color: #3e445e;
+    --border-shadow: #212433;
+    --btn-control-bg: #32374d;
+    --btn-control-border: #414863;
+    --btn-control-shadow: #212433;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Fira Code', 'Monaco', 'Courier New', monospace;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* MAIN Section -----------------------------------*/
+.main {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex: 1;
+    gap: 50px;
+    padding: 50px;
+}
+
+/* Nav section ------------------------------------*/
+.nav {
+    background-color: var(--header-bg-color);
+    filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.5));
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.ul__nav {
+    display: flex;
+    gap: 15px;
+    list-style: none;
+}
+
+.item {
+    font-family: 'Fira Code', 'Monaco', 'Courier New', monospace;
+    text-decoration: none;
+    padding: 12px 24px;
+    background-color: transparent;
+    color: var(--text-color);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.item:hover:not(.item--Exit) {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.item:active:not(.item--Exit) {
+    transform: translateY(1px);
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+}
+
+.item--Exit {
+    background-color: var(--exit-color); 
+    color: var(--header-bg-color);
+    border-color: var(--exit-color);
+}
+
+.item--Exit:hover {
+    background-color: #f18d94;
+    border-color: #f18d94;
+}
+
+.item--Exit:active {
+    transform: translateY(1px);
+    background-color: #d1565e;
+    border-color: #d1565e;
+}
+
+/* SERVO CONTROL PANEL ---------------------------------*/
+.control {
+    padding: 30px;
+    background-color: var(--header-bg-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 450px;
+}
+
+.control h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.control__container {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    width: 100%;
+}
+
+/* Filas individuales de cada Servo */
+.servo-axis {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.servo-axis label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.servo-axis label span {
+    color: var(--accent-active-color);
+    font-weight: bold;
+}
+
+/* Contenedor de Slider + Botones Finos */
+.servo-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+/* Botones de Ajuste Fino (- y +) */
+.btn-fine {
+    width: 36px;
+    height: 36px;
+    background-color: var(--btn-control-bg);
+    color: var(--accent-color);
+    border: 2px solid var(--btn-control-border);
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-fine:hover {
+    background-color: var(--border-color);
+    border-color: var(--accent-color);
+}
+
+.btn-fine:active {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    transform: translateY(1px);
+}
+
+/* Personalización del Deslizador (Slider) */
+.servo-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--btn-control-bg);
+    outline: none;
+    border: 1px solid var(--btn-control-border);
+}
+
+/* El círculo del Slider para navegadores Webkit (Chrome, Safari, Edge, Opera) */
+.servo-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    cursor: pointer;
+    box-shadow: 0 0 6px var(--border-shadow);
+    transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+.servo-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    background: var(--accent-active-color);
+}
+
+/* El círculo del Slider para Firefox */
+.servo-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 50%;
+    background: var(--accent-color);
+    cursor: pointer;
+    box-shadow: 0 0 6px var(--border-shadow);
+    transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+.servo-slider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    background: var(--accent-active-color);
+}
+
+/* Botón Gripper Estilo Panel */
+#gripper { 
+    width: 100%; 
+    height: auto; 
+    padding: 12px; 
+    background-color: var(--btn-control-bg);
+    color: var(--accent-color);
+    border: 2px solid var(--btn-control-border);
+    border-radius: 10px; 
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 6px var(--btn-control-shadow);
+    transition: all 0.15s ease;
+    text-align: center;
+}
+
+#gripper:hover {
+    background-color: var(--border-color);
+    border-color: var(--accent-color);
+}
+
+#gripper:active {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    box-shadow: 0 2px 4px var(--btn-control-shadow);
+    transform: translateY(1px);
+}
+
+/* Display Section ---------------------------------*/
+.points {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 350px;
+    background-color: var(--header-bg-color);
+    border: 2px solid var(--border-color);
+    border-radius: 12px; 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    color: var(--text-color);
+    text-align: center;
+    padding: 30px;
+}
+
+.points__container {
+    width: 100%;
+    background-color: var(--btn-control-bg);
+    border-radius: 8px;
+    margin-top: 25px;
+    padding: 20px;
+    border: 2px solid var(--btn-control-border);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.displayy {
+    padding: 15px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--accent-active-color);
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+}
+
+.title, .title2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.space {
+    padding: 5px;
+}
+
+/* Gripper Container -------------------------------*/
+.gripper_container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    color: var(--text-color);
+    align-items: center;
+    font-weight: bold;
+    background-color: var(--header-bg-color);
+    border-radius: 8px;
+    margin-top: 10px;
+    padding: 20px;
+    border: 2px solid var(--btn-control-border);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.grippp {
+    border: 2px solid var(--nav-color);
+    padding: 5px 80px;
+    border-radius: 10px;
+    font-size: 1.4rem;
+    background-color: var(--nav-color);
+    color: var(--accent-active-color);
+}
+
+.grip {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    color: var(--accent-active-color);
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 10px 20px;
+    border-radius: 6px;
+}
+
+/* Footer ------------------------------------------*/
+footer {
+    width: 100%;
+    padding: 20px;
+    margin-top: auto;
+    font-size: 1rem;
+    text-align: center;
+    color: var(--shadow);
+    background-color: var(--header-bg-color);
+    border-top: 2px solid var(--border-color);
+}
+
+/* =====================================================
+   RESPONSIVE DESIGN
+===================================================== */
+
+@media screen and (max-width: 1024px){
+    .main { padding: 30px; gap: 30px; }
+    .control, .points { max-width: 450px; }
+    .title, .title2 { font-size: 2rem; }
+}
+
+@media screen and (max-width: 768px){
+    .nav { padding: 10px; }
+    .ul__nav { flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .item { padding: 10px 14px; font-size: .95rem; }
+    .main { flex-direction: column; align-items: center; gap: 20px; padding: 15px; }
+    .control, .points { width: 100%; max-width: 500px; padding: 20px; }
+    .title, .title2 { font-size: 1.7rem; }
+    .displayy { font-size: 1.1rem; }
+    .grip { font-size: 1rem; }
+    footer { font-size: .85rem; padding: 12px; }
+}
+
+@media screen and (max-width: 932px) and (orientation: landscape){
+    .nav { position: relative; }
+    .main { flex-direction: row; align-items: stretch; justify-content: space-between; gap: 10px; padding: 8px; }
+    .control { flex: 1; min-width: 0; max-width: 55%; margin: 0; padding: 15px; display: flex; flex-direction: column; justify-content: center; }
+    .points { flex: 0.9; min-width: 0; max-width: 45%; margin: 0; padding: 10px; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; overflow: hidden; }
+    .control__container { gap: 12px; }
+    .title, .title2 { font-size: 1.2rem; }
+    .displayy { font-size: .85rem; padding: 8px; }
+    .grip { font-size: .85rem; padding: 6px 10px; }
+    .item { padding: 6px 10px; font-size: .8rem; }
+    footer { font-size: .7rem; padding: 6px; }
+    .servo-axis { gap: 4px; }
+    .btn-fine { width: 30px; height: 30px; font-size: 1rem; border-radius: 6px; }
+    #gripper { font-size: .85rem; padding: 8px; }
+}
+
+@media screen and (max-width: 480px){
+    .item { width: 100%; }
+    .control, .points { padding: 15px; }
+    .title, .title2 { font-size: 1.4rem; }
+    .displayy { font-size: .95rem; }
+}
